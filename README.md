@@ -1,123 +1,129 @@
-🧠 Kimia Farma – Big Data Analytics Project
-Data-Driven Performance Review (2020–2023)
+# 🧠 **Kimia Farma – Big Data Analytics Project**  
+### *Data-Driven Performance Review (2020–2023)*  
 
-📌 Project Overview
+![Kimia Farma Logo](https://upload.wikimedia.org/wikipedia/commons/b/b2/Kimia_Farma_logo.svg)
 
-Proyek ini merupakan simulasi peran sebagai Big Data Analytics Intern di Kimia Farma, yang berfokus pada analisis kinerja bisnis dan pertumbuhan perusahaan periode 2020–2023.
+---
 
-Analisis dilakukan menggunakan Google BigQuery sebagai platform pemrosesan data utama, serta Looker Studio untuk visualisasi hasil dalam bentuk dashboard interaktif.
+## 📌 **Project Overview**
+Proyek ini merupakan simulasi peran sebagai **Big Data Analytics Intern di Kimia Farma**, yang berfokus pada analisis kinerja bisnis dan pertumbuhan perusahaan periode **2020–2023**.  
 
-Tujuan dari proyek ini adalah untuk:
+Analisis dilakukan menggunakan **Google BigQuery** sebagai platform pemrosesan data utama, serta **Looker Studio** untuk visualisasi hasil dalam bentuk dashboard interaktif.  
 
-Mengevaluasi tren pendapatan dan profitabilitas cabang.
+🎯 **Tujuan utama proyek ini:**
+- Mengevaluasi **tren pendapatan dan profitabilitas cabang**.  
+- Mengidentifikasi **gap antara reputasi cabang (rating)** dan **pengalaman pelanggan (transaksi)**.  
+- Memberikan **insight strategis** untuk mendukung pengambilan keputusan berbasis data.  
 
-Mengidentifikasi gap antara reputasi cabang (rating) dan pengalaman pelanggan (transaksi).
+---
 
-Menyediakan insight strategis untuk mendukung pengambilan keputusan berbasis data (data-driven decision making).
+## 📂 **Project Structure**
 
-📂 Project Structure
+| File | Deskripsi |
+|------|------------|
+| 🧹 `01_data_cleaning_bigquery.sql` | Query BigQuery untuk proses pembersihan (cleaning) empat tabel utama. |
+| 🔗 `02_data_analysis_bigquery.sql` | Query BigQuery untuk penggabungan tabel cleaned, perhitungan nett sales, gross profit, dan pembuatan tabel analisa utama. |
+| 📊 `KimiaFarma_Dashboard.pdf` | Dokumentasi atau tangkapan layar dari dashboard Looker Studio (Performance Analytics Dashboard). |
 
-Repository ini berisi tiga file utama:
+---
 
-File	Deskripsi
-01_data_cleaning.sql	Query BigQuery untuk proses pembersihan (cleaning) keempat tabel utama.
-02_data_merging.sql	Query BigQuery untuk penggabungan tabel cleaned, perhitungan nett sales, gross profit, dan pembuatan tabel analisa utama.
-KimiaFarma_Dashboard.pdf	Tangkapan layar atau dokumentasi dari dashboard Looker Studio (Performance Analytics Dashboard).
-🧾 Dataset Description
+## 🧾 **Dataset Description**
 
-Analisis dilakukan menggunakan empat dataset utama Kimia Farma yang disimpan dalam format .csv dan diimpor ke BigQuery:
+Analisis dilakukan menggunakan empat dataset utama Kimia Farma yang disimpan dalam format `.csv` dan diimpor ke **BigQuery**.
 
-Dataset	Deskripsi	Primary Key
-kf_final_transaction	Data transaksi cabang (tanggal, pelanggan, produk, harga, diskon, rating).	transaction_id
-kf_product	Master data produk (nama produk, kategori, harga standar).	product_id
-kf_inventory	Data stok dan opname per produk per cabang.	product_id
-kf_kantor_cabang	Data cabang Kimia Farma (nama, lokasi, kategori, rating).	branch_id
-🧹 Data Cleaning Process (01_data_cleaning_bigquery.sql)
+| Dataset | Deskripsi | Primary Key |
+|----------|------------|--------------|
+| 💳 `kf_final_transaction` | Data transaksi cabang (tanggal, pelanggan, produk, harga, diskon, rating). | `transaction_id` |
+| 📦 `kf_product` | Master data produk (nama produk, kategori, harga standar). | `product_id` |
+| 🏢 `kf_kantor_cabang` | Data cabang Kimia Farma (nama, lokasi, kategori, rating). | `branch_id` |
+| 📦 `kf_inventory` | Data stok dan opname per produk per cabang. | `product_id` |
 
-Proses pembersihan data dilakukan untuk memastikan setiap tabel memiliki format yang konsisten dan bebas dari error.
-Langkah-langkah utama:
+---
 
-Menghapus duplikasi data dengan DISTINCT.
+## 🧹 **Data Cleaning Process** (`01_data_cleaning_bigquery.sql`)
 
-Membersihkan spasi berlebih menggunakan TRIM().
+Proses **data cleaning** dilakukan agar seluruh tabel memiliki format yang konsisten dan bebas dari error sebelum analisis dilakukan.  
 
-Mengonversi tipe data menggunakan SAFE_CAST().
+🧾 **Langkah-langkah utama:**
+- Menghapus **duplikasi** data dengan `DISTINCT`.  
+- Membersihkan **spasi berlebih** menggunakan `TRIM()`.  
+- Mengonversi tipe data menggunakan `SAFE_CAST()`.  
+- Menangani **nilai NULL** dan data tidak valid.  
+- Menstandarkan **format tanggal, teks, dan angka**.  
 
-Menangani nilai NULL dan data tidak valid.
+📤 **Output dari tahap ini:**
+- `kf_final_transaction_cleaned`  
+- `kf_product_cleaned`  
+- `kf_inventory_cleaned`  
+- `kf_kantor_cabang_cleaned`
 
-Menstandarkan format tanggal, teks, dan angka.
+---
 
-Output dari tahap ini adalah empat tabel cleaned:
+## 🔗 **Data Integration & Analysis** (`02_data_analysis_bigquery.sql`)
 
-kf_final_transaction_cleaned
+Tahap berikutnya adalah **penggabungan data** untuk membentuk tabel analisa utama bernama:  
+`rakaminacademybigdataanalyst.AnalysisDataRakamin.transaction_analysis`
 
-kf_product_cleaned
+🧩 **Langkah-langkah utama:**
+- Menggabungkan tabel cleaned menggunakan `LEFT JOIN` berdasarkan key `product_id` dan `branch_id`.  
+- Menambahkan kolom analitik seperti:
+  - 💵 **`nett_sales`** → harga setelah diskon  
+  - 📈 **`persentase_gross_laba`** → margin laba berdasarkan rentang harga  
+  - 💹 **`nett_profit`** → laba bersih hasil perhitungan `nett_sales × persentase_gross_laba`  
+- Menghasilkan satu tabel final yang siap digunakan untuk **query analitik dan dashboard visualisasi**.
 
-kf_inventory_cleaned
+---
 
-kf_kantor_cabang_cleaned
+## 📊 **Dashboard: Performance Analytics**
 
-🔗 Data Integration & Analysis (02_data_analysis_bigquery.sql)
+Dashboard dibuat menggunakan **Google Looker Studio** untuk memvisualisasikan hasil analisa.  
 
-Tahap ini menggabungkan keempat tabel cleaned menjadi satu tabel analisa komprehensif bernama:
-rakaminacademybigdataanalyst.AnalysisDataRakamin.transaction_analysis
+✨ **Fitur utama dashboard:**
+- 📈 *Tren Pendapatan (2020–2023)*  
+- 💸 *Profit per Provinsi*  
+- ⭐ *Top 5 Cabang dengan Rating Tertinggi namun Transaksi Terendah*  
+- 🏆 *Persentase Gross Laba per Wilayah*  
+- 🔍 *Filter interaktif* berdasarkan tahun, provinsi, dan kategori cabang  
 
-Langkah-langkah utama:
+📎 **Preview Dashboard:**  
+[🔗 Lihat di Google Looker Studio](https://lookerstudio.google.com/) *(link dapat disesuaikan dengan dashboard kamu)*  
 
-Menggabungkan data menggunakan LEFT JOIN berdasarkan key product_id dan branch_id.
+---
 
-Menambahkan kolom analitik seperti:
+## 💡 **Key Insights**
 
-nett_sales → harga setelah diskon
+1. 📊 Pendapatan meningkat signifikan pada periode **2022–2023**.  
+2. ⭐ Beberapa cabang dengan **rating tinggi** justru memiliki volume transaksi rendah — menunjukkan adanya **gap reputasi vs performa bisnis**.  
+3. 💰 Produk dengan **harga di atas Rp300.000** memiliki margin laba tertinggi.  
+4. 📈 Dashboard ini membantu manajemen dalam **memonitor performa cabang** dan merancang strategi peningkatan penjualan berbasis data.  
 
-persentase_gross_laba → margin laba berdasarkan rentang harga
+---
 
-nett_profit → laba bersih berdasarkan perhitungan nett_sales × persentase_gross_laba
+## 🧠 **Tools & Technologies**
 
-Menghasilkan tabel final yang siap digunakan untuk dashboard analitik.
+| Kategori | Teknologi yang Digunakan |
+|-----------|---------------------------|
+| ☁️ **Data Platform** | Google BigQuery |
+| 📊 **Visualization** | Google Looker Studio |
+| 🧾 **Language** | SQL (Standard BigQuery) |
+| 📂 **Data Source** | CSV Files (RawDataRakamin) |
+| 🖥️ **Hosting** | Google Cloud Platform (GCP) |
 
-📊 Dashboard: Performance Analytics
+---
 
-Dashboard dibuat menggunakan Google Looker Studio untuk memvisualisasikan insight utama hasil analisis.
+## 👨‍💻 **Author**
 
-Fitur dashboard:
+**Syahrul Kustiawan Al Zayyan**  
+📍 *Garut, Jawa Barat*  
+🎓 *Informatics Engineering – Intelligent Systems*  
+📧 **syahrulkustiawanalzayyan@gmail.com**  
+🔗 [**LinkedIn**](https://www.linkedin.com/in/syahrul-al-zayyan)
 
-📈 Tren Pendapatan 2020–2023
+---
 
-💸 Profit per Provinsi
+## 📜 **License**
 
-⭐ Top 5 Cabang dengan Rating Tertinggi namun Transaksi Terendah
+This project is created for **educational and portfolio purposes only**.  
+All datasets are part of the **Rakamin Academy Big Data Analytics Simulation Dataset** and do not represent real company data.
 
-🏆 Persentase Gross Laba per Wilayah
-
-🔍 Filter interaktif berdasarkan tahun, provinsi, dan kategori cabang
-
-Preview Dashboard:
-🔗 Lihat Dashboard di Looker Studio
- (link dapat disesuaikan)
-
-💡 Key Insights
-
-Terdapat peningkatan pendapatan signifikan pada periode 2022–2023.
-
-Beberapa cabang dengan rating tinggi memiliki volume transaksi rendah — menunjukkan gap antara reputasi dan performa.
-
-Produk dengan harga di atas Rp300.000 memiliki margin laba tertinggi.
-
-Dashboard ini dapat digunakan manajemen untuk menganalisis performa cabang dan merencanakan strategi bisnis berbasis data.
-
-🧠 Tools & Technologies
-Kategori	Teknologi yang Digunakan
-Data Platform	Google BigQuery
-Visualization	Google Looker Studio
-Language	SQL (Standard BigQuery)
-Data Source	CSV Files (RawDataRakamin)
-Hosting	Google Cloud Platform (GCP)
-👨‍💻 Author
-
-Syahrul Kustiawan Al Zayyan
-📍 Garut, Jawa Barat
-🎓 Informatics Engineering – Intelligent Systems
-📧 syahrulkustiawanalzayyan@gmail.com
-
-🔗 LinkedIn
+---
