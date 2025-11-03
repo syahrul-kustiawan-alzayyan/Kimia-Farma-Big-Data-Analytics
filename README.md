@@ -1,7 +1,7 @@
 # 🧠 **Kimia Farma – Big Data Analytics Project**  
 ### *Data-Driven Performance Review (2020–2023)*  
 
-![Kimia Farma Logo](https://upload.wikimedia.org/wikipedia/commons/b/b2/Kimia_Farma_logo.svg)
+![Kimia Farma Logo]([https://upload.wikimedia.org/wikipedia/commons/b/b2/Kimia_Farma_logo.svg](https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.wikipedia.org%2Fwiki%2FKimia_Farma&psig=AOvVaw2QMGDXuC9Xwzq6Kfp0Hgal&ust=1762272484227000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCNDB7t2u1pADFQAAAAAdAAAAABAE))
 
 ---
 
@@ -21,9 +21,9 @@ Analisis dilakukan menggunakan **Google BigQuery** sebagai platform pemrosesan d
 
 | File | Deskripsi |
 |------|------------|
-| 🧹 `01_data_cleaning_bigquery.sql` | Query BigQuery untuk proses pembersihan (cleaning) empat tabel utama. |
-| 🔗 `02_data_analysis_bigquery.sql` | Query BigQuery untuk penggabungan tabel cleaned, perhitungan nett sales, gross profit, dan pembuatan tabel analisa utama. |
-| 📊 `KimiaFarma_Dashboard.pdf` | Dokumentasi atau tangkapan layar dari dashboard Looker Studio (Performance Analytics Dashboard). |
+| 🧹 `01_data_cleaning.sql` | Query BigQuery untuk proses pembersihan (cleaning) empat tabel utama. |
+| 🔗 `02_data_merging.sql` | Query BigQuery untuk penggabungan tabel cleaned, perhitungan nett sales, gross profit, dan pembuatan tabel analisa utama. |
+| 📊 `Dashboard_kimia_farma.pdf` | Dokumentasi atau tangkapan layar dari dashboard Looker Studio (Performance Analytics Dashboard). |
 
 ---
 
@@ -86,7 +86,7 @@ Dashboard dibuat menggunakan **Google Looker Studio** untuk memvisualisasikan ha
 - 🔍 *Filter interaktif* berdasarkan tahun, provinsi, dan kategori cabang  
 
 📎 **Preview Dashboard:**  
-[🔗 Lihat di Google Looker Studio](https://lookerstudio.google.com/) *(link dapat disesuaikan dengan dashboard kamu)*  
+[🔗 Lihat di Google Looker Studio]([https://lookerstudio.google.com/](https://lookerstudio.google.com/reporting/66bd80a9-d119-4501-8d55-f8f5e22f6812)) *(link dapat disesuaikan dengan dashboard kamu)*  
 
 ---
 
